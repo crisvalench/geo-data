@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Geo Data </title>
+    </head>
+    <style>
+        body{
+             padding: 40px;
+             text-align: center;
+        }
+        h2{
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            text-transform: uppercase;
+            color: #2f4dfc;
+            text-align: center;
+            font-size: 50px;
+            margin-bottom: 20px;
+            letter-spacing:0.1cm;
+        }
+
+        span{
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 28px;
+            width:30%; 
+            margin: auto; 
+            margin-bottom: 20px;
+        }
+        .print{
+            width: 150px;
+            background-color: #ff6600; 
+            color: white; 
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-weight: bolder;
+            font-size: 15px;
+            padding: 8px; 
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+    </style>
+    <body>
+        <script>
+            function sucess(pos){
+                const cord = pos.coords;
+                console.log('latitude: ' + cord.latitude);
+                console.log('longitude:' + cord.longitude);
+                coordinatesTextLatitude = document.getElementById('display-cords-latitude');
+                coordinatesTextLatitude.innerText = +cord.latitude;
+
+                coordinatesTextLangitude = document.getElementById('display-cords-longitude')
+                coordinatesTextLangitude.innerText = +cord.longitude;
+            }
+             function CurrentPosition(event){
+                event.preventDefault();
+                navigator.geolocation.getCurrentPosition(sucess);
+            }
+        </script>
+    
+        <h2 id="map-title">Geo-Data 📍</h2>
+        <br>
+            <span>Latitude: </span>
+            <span id="display-cords-latitude"></span>
+        <br>
+            <span>Longitude: </span>
+            <span id="display-cords-longitude"></span>
+        <br>
+            <input class= 'print' type="button" value="GET POSITION" onclick= "CurrentPosition(event)">
+    </body>
+</html>
