@@ -49,10 +49,17 @@
                 coordinatesTextLangitude = document.getElementById('display-cords-longitude')
                 coordinatesTextLangitude.innerText = +cord.longitude;
             }
+
+            function error(err) {
+                  console.error(err);
+                  alert("Unable to retrieve location. Please allow location access")
+            }
+
              function CurrentPosition(event){
                 event.preventDefault();
-                navigator.geolocation.getCurrentPosition(sucess);
+                navigator.geolocation.getCurrentPosition(sucess,error);
             }
+            
         </script>
     
         <h2 id="map-title">Geo-Data 📍</h2>
