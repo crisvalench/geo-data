@@ -17,7 +17,6 @@
             margin-bottom: 20px;
             letter-spacing:0.1cm;
         }
-
         span{
             font-family: Arial, Helvetica, sans-serif;
             font-size: 28px;
@@ -43,11 +42,45 @@
                 const cord = pos.coords;
                 console.log('latitude: ' + cord.latitude);
                 console.log('longitude:' + cord.longitude);
+                
                 coordinatesTextLatitude = document.getElementById('display-cords-latitude');
                 coordinatesTextLatitude.innerText = +cord.latitude;
 
                 coordinatesTextLangitude = document.getElementById('display-cords-longitude')
                 coordinatesTextLangitude.innerText = +cord.longitude;
+
+                getAddress(cord.latitude, cord.longitude);
+            }
+
+            function getAddress(lat, lon){
+                var openStreetUrl = "https://nominatim.openstreetmap.org/reverse?format=json";
+                const paramsSeparator = '&';
+                const equal = '=';
+                const latKey = 'lat';
+                const lonkey = 'lon';
+
+                openStreetUrl = openStreetUrl + 
+                                paramsSeparator + latKey + equal + lat + 
+                                paramsSeparator + lonkey + equal + lon;  
+                //console.log(openStreetUrl);
+
+                fetch(openStreetUrl)
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data =>{
+                        cityName = data.address.city;
+                        coordinatesTextCity = document.getElementById('display-cords-city');
+                        coordinatesTextCity.innerText = cityName;
+
+                        stateName = data.address.state;
+                        coordinatesTextState = document.getElementById('display-cords-state');
+                        coordinatesTextState.innerText = stateName;
+
+                        postCodeName = data.address.postcode;
+                        coordinatesTextPostCode = document.getElementById('display-cords-postcode');
+                        coordinatesTextPostCode.innerText = postCodeName;
+                    }) 
             }
 
             function error(err) {
@@ -63,6 +96,8 @@
         </script>
     
         <h2 id="map-title">Geo-Data 📍</h2>
+
+        <div>
         <br>
             <span>Latitude: </span>
             <span id="display-cords-latitude"></span>
@@ -70,6 +105,20 @@
             <span>Longitude: </span>
             <span id="display-cords-longitude"></span>
         <br>
-            <input class= 'print' type="button" value="GET POSITION" onclick= "CurrentPosition(event)">
+        <br>
+            <span>City: </span>
+            <span id="display-cords-city"></span>
+        <br>
+        <br>
+            <span>State: </span>
+            <span id="display-cords-state"></span>
+        <br>
+         <br>
+            <span>Postal Code: </span>
+            <span id="display-cords-postcode"></span>
+        <br>
+        </div>
+
+        <input class= 'print' type="button" value="GET POSITION" onclick= "CurrentPosition(event)">
     </body>
 </html>
